@@ -32,7 +32,7 @@ class AuthService {
    * Get the authorization URL for Asgardeo login
    */
   async getAuthorizationUrl(): Promise<{ authUrl: string }> {
-    const response = await fetch(`${this.baseUrl}/auth/authorize`, {
+    const response = await fetch(`${this.baseUrl}/authorize`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ class AuthService {
    * Exchange authorization code for tokens
    */
   async exchangeCodeForTokens(code: string, state?: string): Promise<AuthTokens> {
-    const response = await fetch(`${this.baseUrl}/auth/callback`, {
+    const response = await fetch(`${this.baseUrl}/callback`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ class AuthService {
    * Validate a JWT token
    */
   async validateToken(token: string): Promise<TokenValidationResponse> {
-    const response = await fetch(`${this.baseUrl}/auth/validate`, {
+    const response = await fetch(`${this.baseUrl}/validate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ class AuthService {
    * Refresh access token using refresh token
    */
   async refreshToken(refreshToken: string): Promise<AuthTokens> {
-    const response = await fetch(`${this.baseUrl}/auth/refresh`, {
+    const response = await fetch(`${this.baseUrl}/refresh`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ class AuthService {
    * Logout user
    */
   async logout(accessToken?: string): Promise<{ message: string }> {
-    const response = await fetch(`${this.baseUrl}/auth/logout`, {
+    const response = await fetch(`${this.baseUrl}/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,6 +147,25 @@ class AuthService {
 
     if (!response.ok) {
       throw new Error(`Logout failed: ${response.statusText}`);
+    }
+
+    return response.json();
+  }
+
+  /**
+   * Get user information from backend (uses Supabase database)
+   */
+  async getUserInfo(accessToken: string): Promise<UserInfo> {
+    const response = await fetch(`${this.baseUrl}/user`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to get user info: ${response.statusText}`);
     }
 
     return response.json();

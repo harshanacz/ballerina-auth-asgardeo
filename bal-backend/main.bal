@@ -31,7 +31,7 @@ type UserInfo record {|
         allowMethods: ["GET", "POST", "OPTIONS"]
     }
 }
-service /auth on new http:Listener(serverPort) {
+service / on new http:Listener(serverPort) {
 
     function init() {
         log:printInfo("🚀 Ballerina Authentication Service started successfully!");
@@ -240,9 +240,14 @@ function getUserInfo(string accessToken) returns json|error {
 function extractUserInfo(json userInfo) returns UserInfo {
     UserInfo user = {};
     
+    // Try both email and username fields (Asgardeo returns username instead of email)
     json|error emailJson = userInfo.email;
+    json|error usernameJson = userInfo.username;
+    
     if emailJson is json && emailJson is string {
         user.email = emailJson;
+    } else if usernameJson is json && usernameJson is string {
+        user.email = usernameJson; // Use username as email for Asgardeo
     }
     
     json|error nameJson = userInfo.name;
@@ -275,11 +280,34 @@ function extractUserInfo(json userInfo) returns UserInfo {
 
 // Save user information from OAuth provider to Supabase database
 function saveUserFromOAuth(json userInfo) returns User|DatabaseError {
+    // Log the incoming user info for debugging
+    log:printInfo("Received user info from OAuth: " + userInfo.toString());
+    
+    // Try both email and username fields (Asgardeo returns username instead of email)
     json|error emailJson = userInfo.email;
+    json|error usernameJson = userInfo.username;
     json|error subJson = userInfo.sub;
     
-    if emailJson is error || subJson is error {
-        return {message: "Invalid user information from OAuth provider", code: "INVALID_OAUTH_DATA"};
+    string? emailStr = ();
+    if emailJson is json && emailJson is string {
+        emailStr = emailJson;
+    } else if usernameJson is json && usernameJson is string {
+        emailStr = usernameJson; // Use username as email for Asgardeo
+    }
+    
+    // Enhanced debugging
+    log:printInfo("Email from email field: " + (emailJson is error ? "ERROR" : (emailJson is () ? "NULL" : emailJson.toString())));
+    log:printInfo("Email from username field: " + (usernameJson is error ? "ERROR" : (usernameJson is () ? "NULL" : usernameJson.toString())));
+    log:printInfo("Final email value: " + (emailStr ?: "NULL"));
+    log:printInfo("Sub extraction result: " + (subJson is error ? "ERROR" : subJson.toString()));
+    
+    if emailStr is () || subJson is error || subJson is () {
+        string errorMsg = "Missing required fields - Email: " + 
+                         (emailStr is () ? "NULL" : "OK") + 
+                         ", Sub: " + 
+                         (subJson is error ? "ERROR" : (subJson is () ? "NULL" : "OK"));
+        log:printError("User save failed: " + errorMsg);
+        return {message: errorMsg, code: "INVALID_OAUTH_DATA"};
     }
     
     string? nameStr = ();
@@ -308,7 +336,7 @@ function saveUserFromOAuth(json userInfo) returns User|DatabaseError {
     }
     
     CreateUserRequest userRequest = {
-        email: emailJson.toString(),
+        email: emailStr,  // Use the extracted email (from email or username field)
         name: nameStr,
         given_name: givenNameStr,
         family_name: familyNameStr,
@@ -317,5 +345,6 @@ function saveUserFromOAuth(json userInfo) returns User|DatabaseError {
         provider: "asgardeo"
     };
     
+    log:printInfo("Creating user request with email: " + userRequest.email);
     return createOrUpdateUser(userRequest);
 }
