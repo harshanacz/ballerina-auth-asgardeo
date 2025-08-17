@@ -5,10 +5,10 @@ import ballerina/random;
 import ballerina/regex;
 
 // Configuration
-configurable string asgardeoClientId = "5OCfMRn7p8P4hrVJAqIWRbQkl0Aa";
-configurable string asgardeoClientSecret = "B1wdNDkyGh14wInAbNuDeIlyXUJIfdNJcoeDtbpVELIa";
+configurable string asgardeoClientId = "<ur>";
+configurable string asgardeoClientSecret = "<ur>";
 configurable string asgardeoRedirectUri = "http://localhost:3000/dashboard";
-configurable string asgardeoBaseUrl = "https://api.asgardeo.io/t/moderatocmaas/oauth2";
+configurable string asgardeoBaseUrl = "https://api.asgardeo.io/t/<ur>/oauth2";
 configurable string asgardeoScope = "openid profile";
 configurable int serverPort = 8080;
 
@@ -319,3 +319,4 @@ function saveUserFromOAuth(json userInfo) returns User|DatabaseError {
     
     return createOrUpdateUser(userRequest);
 }
+
