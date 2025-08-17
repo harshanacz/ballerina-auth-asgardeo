@@ -28,8 +28,12 @@ dependencies = [
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "random"},
 	{org = "ballerina", name = "regex"},
+	{org = "ballerina", name = "sql"},
+	{org = "ballerina", name = "time"},
 	{org = "ballerina", name = "url"},
-	{org = "ballerinai", name = "observe"}
+	{org = "ballerina", name = "uuid"},
+	{org = "ballerinai", name = "observe"},
+	{org = "ballerinax", name = "postgresql"}
 ]
 modules = [
 	{org = "ballerina", packageName = "bal_backend", moduleName = "bal_backend"}
@@ -300,6 +304,20 @@ modules = [
 
 [[package]]
 org = "ballerina"
+name = "sql"
+version = "1.16.0"
+dependencies = [
+	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.object"},
+	{org = "ballerina", name = "time"}
+]
+modules = [
+	{org = "ballerina", packageName = "sql", moduleName = "sql"}
+]
+
+[[package]]
+org = "ballerina"
 name = "task"
 version = "2.7.0"
 dependencies = [
@@ -314,6 +332,9 @@ version = "2.7.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
+modules = [
+	{org = "ballerina", packageName = "time", moduleName = "time"}
+]
 
 [[package]]
 org = "ballerina"
@@ -327,6 +348,20 @@ modules = [
 ]
 
 [[package]]
+org = "ballerina"
+name = "uuid"
+version = "1.10.0"
+dependencies = [
+	{org = "ballerina", name = "crypto"},
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "lang.int"},
+	{org = "ballerina", name = "time"}
+]
+modules = [
+	{org = "ballerina", packageName = "uuid", moduleName = "uuid"}
+]
+
+[[package]]
 org = "ballerinai"
 name = "observe"
 version = "0.0.0"
@@ -336,5 +371,32 @@ dependencies = [
 ]
 modules = [
 	{org = "ballerinai", packageName = "observe", moduleName = "observe"}
+]
+
+[[package]]
+org = "ballerinax"
+name = "cdc"
+version = "1.0.3"
+dependencies = [
+	{org = "ballerina", name = "crypto"},
+	{org = "ballerina", name = "data.jsondata"},
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerinai", name = "observe"}
+]
+
+[[package]]
+org = "ballerinax"
+name = "postgresql"
+version = "1.16.1"
+dependencies = [
+	{org = "ballerina", name = "crypto"},
+	{org = "ballerina", name = "io"},
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "sql"},
+	{org = "ballerina", name = "time"},
+	{org = "ballerinax", name = "cdc"}
+]
+modules = [
+	{org = "ballerinax", packageName = "postgresql", moduleName = "postgresql"}
 ]
 

@@ -99,7 +99,14 @@ service /auth on new http:Listener(serverPort) {
             return error("Failed to get user information");
         }
         
-        // Add user info to token response (without database persistence for now)
+        // Save or update user in Supabase database
+        User|DatabaseError savedUser = saveUserFromOAuth(userInfo);
+        if savedUser is DatabaseError {
+            log:printError("Failed to save user to database: " + savedUser.message);
+            // Continue with authentication even if database save fails
+        }
+        
+        // Add user info to token response
         json responseWithUser = tokenResponse.clone();
         UserInfo user = extractUserInfo(userInfo);
         json userJson = {
@@ -110,6 +117,12 @@ service /auth on new http:Listener(serverPort) {
             "picture": user.picture,
             "sub": user.sub
         };
+        
+        // If we successfully saved to database, include database user ID
+        if savedUser is User {
+            userJson = check userJson.mergeJson({"id": savedUser.id});
+        }
+        
         responseWithUser = check responseWithUser.mergeJson({"user": userJson});
 
         return responseWithUser;
@@ -258,4 +271,51 @@ function extractUserInfo(json userInfo) returns UserInfo {
     }
     
     return user;
+}
+
+// Save user information from OAuth provider to Supabase database
+function saveUserFromOAuth(json userInfo) returns User|DatabaseError {
+    json|error emailJson = userInfo.email;
+    json|error subJson = userInfo.sub;
+    
+    if emailJson is error || subJson is error {
+        return {message: "Invalid user information from OAuth provider", code: "INVALID_OAUTH_DATA"};
+    }
+    
+    string? nameStr = ();
+    string? givenNameStr = ();
+    string? familyNameStr = ();
+    string? pictureStr = ();
+    
+    json|error nameJson = userInfo.name;
+    if nameJson is json && nameJson is string {
+        nameStr = nameJson;
+    }
+    
+    json|error givenNameJson = userInfo.given_name;
+    if givenNameJson is json && givenNameJson is string {
+        givenNameStr = givenNameJson;
+    }
+    
+    json|error familyNameJson = userInfo.family_name;
+    if familyNameJson is json && familyNameJson is string {
+        familyNameStr = familyNameJson;
+    }
+    
+    json|error pictureJson = userInfo.picture;
+    if pictureJson is json && pictureJson is string {
+        pictureStr = pictureJson;
+    }
+    
+    CreateUserRequest userRequest = {
+        email: emailJson.toString(),
+        name: nameStr,
+        given_name: givenNameStr,
+        family_name: familyNameStr,
+        picture: pictureStr,
+        sub: subJson.toString(),
+        provider: "asgardeo"
+    };
+    
+    return createOrUpdateUser(userRequest);
 }
