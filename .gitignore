@@ -1,0 +1,134 @@
+# ================================
+# Node.js Dependencies
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ================================
+# Next.js Build Output
+# ================================
+client/.next/
+client/out/
+client/build/
+client/dist/
+
+# ================================
+# Ballerina Build Output
+# ================================
+auth-service/target/
+auth-service/Dependencies.toml
+auth-service/.ballerina/
+
+# ================================
+# Environment Variables & Secrets
+# ================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Sensitive configuration files
+**/Config.toml
+**/.env
+secrets.json
+*.key
+*.pem
+
+# ================================
+# IDE & Editor Files
+# ================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ================================
+# Operating System Files
+# ================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+
+# Linux
+*~
+
+# ================================
+# Logs
+# ================================
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ================================
+# Runtime Data
+# ================================
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ================================
+# Coverage & Testing
+# ================================
+coverage/
+*.lcov
+.nyc_output/
+
+# ================================
+# Temporary Folders
+# ================================
+tmp/
+temp/
+.cache/
+.parcel-cache/
+
+# ================================
+# Optional npm cache directory
+# ================================
+.npm
+
+# ================================
+# Optional REPL history
+# ================================
+.node_repl_history
+
+# ================================
+# Output of 'npm pack'
+# ================================
+*.tgz
+
+# ================================
+# Yarn Integrity file
+# ================================
+.yarn-integrity
+
+# ================================
+# Stores VSCode versions used for testing VSCode extensions
+# ================================
+.vscode-test
+
+# ================================
+# Project Specific
+# ================================
+# Help files (can be removed after setup)
+ASGARDEO_ORG_HELP.txt
+
+# Backup files
+*.bak
+*.backup

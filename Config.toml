@@ -1,9 +1,0 @@
-[auth_service]
-asgardeoClientId = "5OCfMRn7p8P4hrVJAqIWRbQkl0Aa"
-asgardeoClientSecret = "B1wdNDkyGh14wInAbNuDeIlyXUJIfdNJcoeDtbpVELIa"
-asgardeoRedirectUri = "http://localhost:3000/dashboard"
-# Update this with your correct organization name
-# Check your Asgardeo console URL: https://console.asgardeo.io/t/moderatocmaas
-asgardeoBaseUrl = "https://api.asgardeo.io/t/moderatocmaas/oauth2"
-asgardeoScope = "openid profile"
-serverPort = 8080
