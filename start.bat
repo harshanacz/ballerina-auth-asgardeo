@@ -25,7 +25,7 @@ echo ✅ Dependencies check passed
 echo.
 
 echo 🔧 Starting Ballerina Authentication Service...
-cd auth-service
+cd bal-backend
 start "Ballerina Auth Service" cmd /k "bal run"
 cd ..
 echo ✅ Ballerina service starting...

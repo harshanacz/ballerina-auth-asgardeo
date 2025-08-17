@@ -1,0 +1,35 @@
+# This is a template configuration file for the Ballerina Authentication Service
+# Copy this file to Config.toml and update with your actual Asgardeo credentials
+
+[bal_backend]
+# Your Asgardeo Application Credentials
+asgardeoClientId = "YOUR_CLIENT_ID"
+asgardeoClientSecret = "YOUR_CLIENT_SECRET"
+
+# Redirect URI (should match what's configured in Asgardeo)
+asgardeoRedirectUri = "http://localhost:3000/dashboard"
+
+# Your Asgardeo Organization URL
+# Replace YOUR_ORGANIZATION with your actual organization name
+# You can find this in your Asgardeo console URL: https://console.asgardeo.io/t/YOUR_ORGANIZATION
+asgardeoBaseUrl = "https://api.asgardeo.io/t/YOUR_ORGANIZATION/oauth2"
+
+# OAuth2 Scopes
+asgardeoScope = "openid profile"
+
+# Server Configuration
+serverPort = 8080
+
+# Supabase Database Configuration
+supabaseHost = "db.pembvcwdlcrmlnqifolt.supabase.co"
+supabasePort = 5432
+supabaseDatabase = "postgres"
+supabaseUsername = "postgres"
+supabasePassword = "YOUR_SUPABASE_PASSWORD"
+
+# Instructions:
+# 1. Replace YOUR_CLIENT_ID with your Asgardeo application's Client ID
+# 2. Replace YOUR_CLIENT_SECRET with your Asgardeo application's Client Secret
+# 3. Replace YOUR_ORGANIZATION with your actual Asgardeo organization name
+# 4. Replace YOUR_SUPABASE_PASSWORD with your Supabase database password
+# 5. Ensure the redirect URI matches your Asgardeo application configuration

@@ -25,7 +25,7 @@ echo ""
 # Function to start Ballerina service
 start_ballerina() {
     echo "🔧 Starting Ballerina Authentication Service..."
-    cd auth-service
+    cd bal-backend
     bal run &
     BALLERINA_PID=$!
     cd ..

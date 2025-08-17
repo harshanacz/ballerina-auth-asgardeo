@@ -1,19 +1,21 @@
-# 🔐 Ballerina Authentication with Asgardeo
+# 🔐 Ballerina Authentication with Asgardeo & Supabase
 
 [![Ballerina](https://img.shields.io/badge/Ballerina-2201.10.2-blue)](https://ballerina.io/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.4.6-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)](https://supabase.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern fullstack authentication application demonstrating OAuth2 integration between Ballerina backend services and Asgardeo (WSO2 Identity Server) with a Next.js frontend.
+A modern fullstack authentication application demonstrating OAuth2 integration between Ballerina backend services, Asgardeo (WSO2 Identity Server), and Supabase database with a Next.js frontend.
 
 ## 🚀 Features
 
 - ✅ **OAuth2 Authorization Code Flow** with Asgardeo
 - ✅ **JWT Token Management** (Access, ID, Refresh tokens)
+- ✅ **User Data Persistence** with Supabase PostgreSQL
 - ✅ **Secure Token Storage** with automatic refresh
 - ✅ **Protected Routes** using Higher-Order Components
-- ✅ **User Profile Management** with Asgardeo claims
+- ✅ **User Profile Management** with database persistence
 - ✅ **CORS Enabled** for cross-origin requests
 - ✅ **TypeScript Support** for type safety
 - ✅ **Responsive UI** with Tailwind CSS
@@ -25,6 +27,12 @@ A modern fullstack authentication application demonstrating OAuth2 integration b
 │   Next.js App   │◄──►│ Ballerina Service │◄──►│    Asgardeo     │
 │   (Port 3000)   │    │   (Port 8080)     │    │  Identity Server │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
+                                 │
+                                 ▼
+                        ┌─────────────────┐
+                        │    Supabase     │
+                        │   PostgreSQL    │
+                        └─────────────────┘
 ```
 
 ### Components
@@ -32,13 +40,15 @@ A modern fullstack authentication application demonstrating OAuth2 integration b
 - **Frontend**: Next.js 15 with React 19, TypeScript, and Tailwind CSS
 - **Backend**: Ballerina authentication service with RESTful APIs
 - **Identity Provider**: Asgardeo (WSO2 Identity Server)
-- **Authentication Flow**: OAuth2 Authorization Code with PKCE support
+- **Database**: Supabase PostgreSQL for user data persistence
+- **Authentication Flow**: OAuth2 Authorization Code with user data synchronization
 
 ## 📋 Prerequisites
 
 - **[Ballerina](https://ballerina.io/downloads/)** v2201.10.2 or later
 - **[Node.js](https://nodejs.org/)** v18.0.0 or later
 - **[Asgardeo Account](https://asgardeo.io/)** with an application configured
+- **[Supabase Account](https://supabase.com/)** with a project set up
 
 ## ⚙️ Setup Instructions
 
@@ -62,7 +72,7 @@ cd ballerina-apigateway-v5
 
 1. Copy the configuration template:
    ```bash
-   cd auth-service
+   cd bal-backend
    cp Config.toml.template Config.toml
    ```
 
@@ -101,7 +111,7 @@ This will start both the Ballerina service and Next.js app concurrently.
 
 **Terminal 1 - Start Ballerina Service:**
 ```bash
-cd auth-service; bal run
+cd bal-backend; bal run
 ```
 
 **Terminal 2 - Start Next.js App:**
@@ -154,7 +164,7 @@ const tokenResponse = await fetch('http://localhost:8080/auth/callback', {
 ### Project Structure
 
 ```
-├── auth-service/              # Ballerina authentication service
+├── bal-backend/               # Ballerina authentication service
 │   ├── Ballerina.toml        # Ballerina project configuration
 │   ├── Config.toml           # Application configuration (ignored)
 │   ├── Config.toml.template  # Configuration template
@@ -261,7 +271,7 @@ npm run lint:client
 To run the Ballerina service in debug mode:
 
 ```bash
-cd auth-service
+cd bal-backend
 bal run --debug 5005
 ```
 
