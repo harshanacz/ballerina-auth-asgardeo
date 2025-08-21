@@ -1,4 +1,4 @@
-#  Ballerina Authentication 
+#  Ballerina Authentication with Asgardeo (WSO2 Identity Server)
 
 A modern fullstack authentication application demonstrating OAuth2 integration between Ballerina backend services, Asgardeo (WSO2 Identity Server), and Supabase database with a Next.js frontend.
 
@@ -149,4 +149,5 @@ const tokenResponse = await fetch('http://localhost:8080/auth/callback', {
 2. Search existing [GitHub issues](https://github.com/your-username/your-repo/issues)
 3. Create a new issue with detailed information
 4. For Asgardeo-specific issues, contact: asgardeo-help@wso2.com
+
 
